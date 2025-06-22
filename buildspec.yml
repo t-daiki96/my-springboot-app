@@ -21,6 +21,18 @@ phases:
     commands:
       - echo Pushing Docker image...
       - docker push 703499667798.dkr.ecr.ap-northeast-1.amazonaws.com/my-springboot-app:latest
+
+      - IMAGE_URI=703499667798.dkr.ecr.ap-northeast-1.amazonaws.com/my-springboot-app:latest
+      - sed "s|PLACEHOLDER_IMAGE_URI|$IMAGE_URI|" taskdef.json > updated-taskdef.json
+
+      - echo Registering new task definition...
+      - aws ecs register-task-definition --cli-input-json file://updated-taskdef.json
+
+      - echo Updating ECS service...
+      - aws ecs update-service \
+        --cluster my-springboot-cluster \
+        --service my-springboot-task-service-an84ewrq \
+        --task-definition my-springboot-task
 artifacts:
   files:
     - '**/*'

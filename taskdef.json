@@ -1,0 +1,52 @@
+{
+  "family": "my-springboot-task",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::703499667798:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::703499667798:role/ecsTaskExecutionRole",
+  "cpu": "256",
+  "memory": "512",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "containerDefinitions": [
+    {
+      "name": "my-springboot-app",
+      "image": "PLACEHOLDER_IMAGE_URI",
+      "cpu": 0,
+      "memoryReservation": 512,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awsfirelens",
+        "options": {
+          "region": "ap-northeast-1",
+          "delivery_stream": "my-stream",
+          "Name": "kinesis_firehose"
+        }
+      }
+    },
+    {
+      "name": "log_router",
+      "image": "public.ecr.aws/aws-observability/aws-for-fluent-bit:stable",
+      "cpu": 0,
+      "memoryReservation": 51,
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ecs-aws-firelens-sidecar-container",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "firelens"
+        }
+      },
+      "firelensConfiguration": {
+        "type": "fluentbit"
+      }
+    }
+  ]
+}
