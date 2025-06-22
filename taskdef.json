@@ -13,7 +13,6 @@
       "name": "my-springboot-app",
       "image": "PLACEHOLDER_IMAGE_URI",
       "cpu": 0,
-      "memoryReservation": 512,
       "essential": true,
       "portMappings": [
         {
