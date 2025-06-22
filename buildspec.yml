@@ -29,10 +29,7 @@ phases:
       - aws ecs register-task-definition --cli-input-json file://updated-taskdef.json
 
       - echo Updating ECS service...
-      - aws ecs update-service \
-        --cluster my-springboot-cluster \
-        --service my-springboot-task-service-an84ewrq \
-        --task-definition my-springboot-task
+      - aws ecs update-service --cluster my-springboot-cluster --service my-springboot-task-service-an84ewrq --task-definition my-springboot-task
 artifacts:
   files:
     - '**/*'
