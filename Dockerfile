@@ -1,5 +1,5 @@
 # ベースイメージ（Java 17）
-FROM openjdk:17-jdk-slim
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:17
 
 # 作業ディレクトリ
 WORKDIR /app
